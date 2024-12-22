@@ -1,69 +1,94 @@
-# Welcome to your Lovable project
+# EcoAnalyze-Viz: Server Energy Cost Analysis Dashboard
 
-## Project info
+## Overview
+EcoAnalyze-Viz is a web-based dashboard application that helps organizations analyze and optimize their server infrastructure costs. It provides real-time calculations and visualizations for comparing physical server costs with virtualized alternatives, helping make informed decisions about server infrastructure.
 
-**URL**: https://lovable.dev/projects/a3e287e3-2d62-4049-84a0-6528c14b1b47
+## Features
+- **Real-time Cost Analysis**: Calculate and compare costs between physical and virtualized server setups
+- **Interactive Dashboard**: Dynamic visualizations including:
+  - Resource utilization graphs
+  - Cost comparison charts
+  - Energy savings potential analysis
+  - Key performance metrics
+- **Responsive Design**: Fully responsive interface that works across all device sizes
+- **Real-time Updates**: Instant updates to visualizations when server configurations change
 
-## How can I edit this code?
+## Technologies Used
+- **Frontend Framework**: React with TypeScript
+- **Build Tool**: Vite
+- **UI Components**: shadcn/ui
+- **Styling**: Tailwind CSS
+- **Charts & Visualizations**: Recharts
+- **State Management**: React Context API
+- **Form Handling**: React Hook Form
+- **Icons**: Lucide React
+- **Toast Notifications**: Sonner
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/a3e287e3-2d62-4049-84a0-6528c14b1b47) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+## Project Structure
+```
+src/
+├── components/         # React components
+├── contexts/          # Context providers
+├── utils/             # Utility functions
+└── pages/             # Page components
 ```
 
-**Edit a file directly in GitHub**
+## Key Components
+- **ServerConfigForm**: Handles input of server specifications
+- **KeyMetrics**: Displays important performance indicators
+- **ResourceUtilization**: Shows server resource usage
+- **CostComparison**: Compares costs between physical and virtual setups
+- **EnergySavings**: Visualizes potential energy savings
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Getting Started
 
-**Use GitHub Codespaces**
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn package manager
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Installation
+1. Clone the repository:
+```bash
+git clone <repository-url>
+```
 
-## What technologies are used for this project?
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
 
-This project is built with .
+3. Start the development server:
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+4. Open your browser and navigate to `http://localhost:8080`
 
-## How can I deploy this project?
+## Usage
+1. Enter your server specifications in the configuration form:
+   - Number of physical servers
+   - CPU cores per server
+   - RAM per server
+   - Power consumption
+   - Energy rate
+2. Click "Calculate" to see real-time analysis
+3. View the results across different visualizations and metrics
 
-Simply open [Lovable](https://lovable.dev/projects/a3e287e3-2d62-4049-84a0-6528c14b1b47) and click on Share -> Publish.
+## Contributing
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## I want to use a custom domain - is that possible?
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+## Acknowledgments
+- Built with [Lovable](https://lovable.dev)
+- UI components from [shadcn/ui](https://ui.shadcn.com)
+- Charts powered by [Recharts](https://recharts.org)
