@@ -1,13 +1,30 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-
-const data = [
-  { name: 'Current Cost', value: 70 },
-  { name: 'Potential Savings', value: 30 },
-];
-
-const COLORS = ['#3B82F6', '#10B981'];
+import { useEnergyCalculation } from '@/contexts/EnergyCalculationContext';
 
 export const EnergySavings = () => {
+  const { results } = useEnergyCalculation();
+
+  const calculateData = () => {
+    if (!results) {
+      return [
+        { name: 'Current Cost', value: 100 },
+        { name: 'Potential Savings', value: 0 },
+      ];
+    }
+
+    const totalCost = results.annualPhysicalCost;
+    const savings = results.annualSavings;
+    const currentCost = totalCost - savings;
+
+    return [
+      { name: 'Current Cost', value: currentCost },
+      { name: 'Potential Savings', value: savings },
+    ];
+  };
+
+  const data = calculateData();
+  const COLORS = ['#3B82F6', '#10B981'];
+
   return (
     <div className="p-6">
       <h2 className="text-xl font-semibold mb-4">Energy Savings Potential</h2>
@@ -34,7 +51,9 @@ export const EnergySavings = () => {
         </ResponsiveContainer>
       </div>
       <div className="mt-4 text-center">
-        <p className="text-2xl font-bold text-green-600">30% Potential Savings</p>
+        <p className="text-2xl font-bold text-green-600">
+          {results ? `${results.savingsPercentage.toFixed(1)}% Potential Savings` : '0% Potential Savings'}
+        </p>
         <p className="text-sm text-slate-600 mt-1">Through virtualization optimization</p>
       </div>
     </div>

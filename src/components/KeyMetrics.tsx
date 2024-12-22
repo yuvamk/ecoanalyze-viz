@@ -1,37 +1,49 @@
 import { Card } from "@/components/ui/card";
 import { Server, Cloud, Battery, TrendingDown } from "lucide-react";
-
-const metrics = [
-  {
-    title: "Physical Servers",
-    value: "12",
-    change: "+2",
-    icon: Server,
-  },
-  {
-    title: "Virtual Machines",
-    value: "48",
-    change: "+5",
-    icon: Cloud,
-  },
-  {
-    title: "Energy Usage",
-    value: "1,234 kWh",
-    change: "-12%",
-    icon: Battery,
-  },
-  {
-    title: "Cost Savings",
-    value: "$3,456",
-    change: "+15%",
-    icon: TrendingDown,
-  },
-];
+import { useEnergyCalculation } from '@/contexts/EnergyCalculationContext';
 
 export const KeyMetrics = () => {
+  const { results, serverConfig } = useEnergyCalculation();
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value);
+  };
+
+  const getMetrics = () => [
+    {
+      title: "Physical Servers",
+      value: serverConfig?.physicalServers?.toString() || "0",
+      change: "Active",
+      icon: Server,
+    },
+    {
+      title: "Energy Usage",
+      value: results ? `${(results.energyConsumption).toFixed(1)} kWh` : "0 kWh",
+      change: "Monthly",
+      icon: Battery,
+    },
+    {
+      title: "Monthly Cost",
+      value: results ? formatCurrency(results.monthlyPhysicalCost) : "$0",
+      change: "Current",
+      icon: Cloud,
+    },
+    {
+      title: "Annual Savings",
+      value: results ? formatCurrency(results.annualSavings) : "$0",
+      change: "Potential",
+      icon: TrendingDown,
+    },
+  ];
+
   return (
     <>
-      {metrics.map((metric) => (
+      {getMetrics().map((metric) => (
         <Card key={metric.title} className="p-6">
           <div className="flex items-start justify-between">
             <div>

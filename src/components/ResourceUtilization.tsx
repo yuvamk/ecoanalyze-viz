@@ -1,13 +1,27 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
-const data = [
-  { name: 'Server 1', cpu: 90, memory: 65, storage: 45 },
-  { name: 'Server 2', cpu: 75, memory: 85, storage: 55 },
-  { name: 'Server 3', cpu: 85, memory: 70, storage: 65 },
-  { name: 'Server 4', cpu: 65, memory: 90, storage: 75 },
-];
+import { useEnergyCalculation } from '@/contexts/EnergyCalculationContext';
 
 export const ResourceUtilization = () => {
+  const { serverConfig } = useEnergyCalculation();
+
+  const generateUtilizationData = () => {
+    if (!serverConfig) {
+      return [];
+    }
+
+    // Calculate utilization percentages based on typical virtualization scenarios
+    const servers = Array.from({ length: serverConfig.physicalServers }, (_, i) => ({
+      name: `Server ${i + 1}`,
+      cpu: Math.min(85 + Math.random() * 10, 100), // Random CPU utilization between 85-95%
+      memory: Math.min(75 + Math.random() * 15, 100), // Random memory utilization between 75-90%
+      storage: Math.min(65 + Math.random() * 20, 100), // Random storage utilization between 65-85%
+    }));
+
+    return servers;
+  };
+
+  const data = generateUtilizationData();
+
   return (
     <div className="p-6">
       <h2 className="text-xl font-semibold mb-4">Resource Utilization</h2>
