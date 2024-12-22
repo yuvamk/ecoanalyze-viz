@@ -2,20 +2,45 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { calculateEnergyCosts, type ServerConfig } from "@/utils/energyCalculations";
+import { useToast } from "@/components/ui/use-toast";
 
 export const ServerConfigForm = () => {
-  const [formData, setFormData] = useState({
-    physicalServers: "",
-    cpuCores: "",
-    ramGB: "",
-    powerConsumption: "",
-    energyRate: "",
+  const { toast } = useToast();
+  const [formData, setFormData] = useState<ServerConfig>({
+    physicalServers: 0,
+    cpuCores: 0,
+    ramGB: 0,
+    powerConsumption: 0,
+    energyRate: 0,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
+    
+    // Validate inputs
+    if (Object.values(formData).some(value => !value || value <= 0)) {
+      toast({
+        title: "Validation Error",
+        description: "All fields must be filled with values greater than 0",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const results = calculateEnergyCosts(formData);
+    
+    // Update the global state or trigger updates for charts
+    toast({
+      title: "Calculations Complete",
+      description: `Potential Annual Savings: $${results.annualSavings.toFixed(2)}`,
+    });
+
+    // Log results for debugging
+    console.log("Calculation results:", results);
+    
+    // Here you would typically update your charts and metrics
+    // This could be done through a state management solution or props
   };
 
   return (
@@ -27,8 +52,8 @@ export const ServerConfigForm = () => {
           <Input
             id="physicalServers"
             type="number"
-            value={formData.physicalServers}
-            onChange={(e) => setFormData({ ...formData, physicalServers: e.target.value })}
+            value={formData.physicalServers || ""}
+            onChange={(e) => setFormData({ ...formData, physicalServers: Number(e.target.value) })}
             placeholder="Enter number of servers"
           />
         </div>
@@ -37,8 +62,8 @@ export const ServerConfigForm = () => {
           <Input
             id="cpuCores"
             type="number"
-            value={formData.cpuCores}
-            onChange={(e) => setFormData({ ...formData, cpuCores: e.target.value })}
+            value={formData.cpuCores || ""}
+            onChange={(e) => setFormData({ ...formData, cpuCores: Number(e.target.value) })}
             placeholder="Enter CPU cores"
           />
         </div>
@@ -47,8 +72,8 @@ export const ServerConfigForm = () => {
           <Input
             id="ramGB"
             type="number"
-            value={formData.ramGB}
-            onChange={(e) => setFormData({ ...formData, ramGB: e.target.value })}
+            value={formData.ramGB || ""}
+            onChange={(e) => setFormData({ ...formData, ramGB: Number(e.target.value) })}
             placeholder="Enter RAM in GB"
           />
         </div>
@@ -57,8 +82,8 @@ export const ServerConfigForm = () => {
           <Input
             id="powerConsumption"
             type="number"
-            value={formData.powerConsumption}
-            onChange={(e) => setFormData({ ...formData, powerConsumption: e.target.value })}
+            value={formData.powerConsumption || ""}
+            onChange={(e) => setFormData({ ...formData, powerConsumption: Number(e.target.value) })}
             placeholder="Enter power consumption"
           />
         </div>
@@ -68,8 +93,8 @@ export const ServerConfigForm = () => {
             id="energyRate"
             type="number"
             step="0.01"
-            value={formData.energyRate}
-            onChange={(e) => setFormData({ ...formData, energyRate: e.target.value })}
+            value={formData.energyRate || ""}
+            onChange={(e) => setFormData({ ...formData, energyRate: Number(e.target.value) })}
             placeholder="Enter energy rate"
           />
         </div>
