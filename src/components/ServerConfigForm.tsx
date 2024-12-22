@@ -4,9 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { calculateEnergyCosts, type ServerConfig } from "@/utils/energyCalculations";
 import { useToast } from "@/components/ui/use-toast";
+import { useEnergyCalculation } from "@/contexts/EnergyCalculationContext";
 
 export const ServerConfigForm = () => {
   const { toast } = useToast();
+  const { setResults, setServerConfig } = useEnergyCalculation();
   const [formData, setFormData] = useState<ServerConfig>({
     physicalServers: 0,
     cpuCores: 0,
@@ -30,17 +32,16 @@ export const ServerConfigForm = () => {
 
     const results = calculateEnergyCosts(formData);
     
-    // Update the global state or trigger updates for charts
+    // Update the context with new results and server config
+    setResults(results);
+    setServerConfig(formData);
+    
     toast({
       title: "Calculations Complete",
       description: `Potential Annual Savings: $${results.annualSavings.toFixed(2)}`,
     });
 
-    // Log results for debugging
     console.log("Calculation results:", results);
-    
-    // Here you would typically update your charts and metrics
-    // This could be done through a state management solution or props
   };
 
   return (

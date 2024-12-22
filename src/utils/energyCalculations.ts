@@ -12,23 +12,23 @@ export const calculateEnergyCosts = (config: ServerConfig) => {
   // Calculate monthly energy consumption in kWh
   const monthlyEnergyConsumption = (config.powerConsumption * hoursPerMonth * config.physicalServers) / 1000;
   
-  // Calculate monthly cost
-  const monthlyCost = monthlyEnergyConsumption * config.energyRate;
+  // Calculate monthly cost for physical servers
+  const monthlyPhysicalCost = monthlyEnergyConsumption * config.energyRate;
   
   // Estimate virtualized cost (assuming 30% energy savings)
-  const virtualizedCost = monthlyCost * 0.7;
+  const monthlyVirtualizedCost = monthlyPhysicalCost * 0.7;
   
   // Calculate annual costs
-  const annualPhysicalCost = monthlyCost * 12;
-  const annualVirtualizedCost = virtualizedCost * 12;
+  const annualPhysicalCost = monthlyPhysicalCost * 12;
+  const annualVirtualizedCost = monthlyVirtualizedCost * 12;
   
   // Calculate potential savings
   const annualSavings = annualPhysicalCost - annualVirtualizedCost;
   const savingsPercentage = (annualSavings / annualPhysicalCost) * 100;
   
   return {
-    monthlyPhysicalCost: monthlyCost,
-    monthlyVirtualizedCost: virtualizedCost,
+    monthlyPhysicalCost,
+    monthlyVirtualizedCost,
     annualPhysicalCost,
     annualVirtualizedCost,
     annualSavings,
